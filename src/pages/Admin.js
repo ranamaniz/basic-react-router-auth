@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from "../components/AuthForm";
+import { Button, ButtonPrimary } from "../components/AuthForm";
 import { Redirect } from 'react-router-dom';
 import { useAuth } from "../context/auth";
 
@@ -12,8 +12,8 @@ function Admin(props) {
 
     const adminPanel = authTokens ?
         <>
-            <div>Admin Page</div>
-            <Button onClick={logOut}>Log out</Button>
+            <div>Welcome to the Admin Page</div>
+            <ButtonPrimary onClick={logOut}>Log out</ButtonPrimary>
         </>
         :
         <Redirect to="/" />

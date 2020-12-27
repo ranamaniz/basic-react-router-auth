@@ -10,17 +10,17 @@ import Signup from './pages/Signup';
 function App(props) {
   
   // const existingTokens=JSON.parse(localStorage.getItem("tokens"));
-  // const existingTokens=JSON.parse(sessionStorage.getItem("tokens"));
-  const [authTokens, setAuthTokens]=useState("");
+  const existingTokens=JSON.parse(sessionStorage.getItem("tokens"));
+  const [authTokens, setAuthTokens]=useState(existingTokens);
 
-  useEffect(()=>{
-    const existingTokens=JSON.parse(sessionStorage.getItem("tokens"));
-    if(existingTokens){
-      setAuthTokens(existingTokens)
-    }else{
-      setAuthTokens("")
-    }
-  },[])
+  // useEffect(()=>{
+  //   const existingTokens=JSON.parse(sessionStorage.getItem("tokens"));
+  //   if(existingTokens){
+  //     setAuthTokens(existingTokens)
+  //   }else{
+  //     setAuthTokens("")
+  //   }
+  // },[])
 
   const setTokens = (data)=>{
     if(data){
@@ -43,9 +43,9 @@ function App(props) {
                 <li><Link to="/">Home Page</Link></li>
                 <li><Link to="/admin">Admin Page</Link></li>
               </ul>
-              <Route   path="/" component={Home} />
-              <Route   path="/login" component={Login} />
-              <Route   path="/signup" component={Signup} />
+              <Route  exact path="/" component={Home} />
+              <Route   exact path="/login" component={Login} />
+              <Route   exact path="/signup" component={Signup} />
               <PrivateRoute path="/admin" component={Admin} />
             </div>
           </Router>
