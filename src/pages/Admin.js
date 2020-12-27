@@ -1,17 +1,34 @@
 import React from 'react';
-import {Button } from "../components/AuthForm";
-import {useAuth} from "../context/auth";
+import { Button } from "../components/AuthForm";
+import { Redirect } from 'react-router-dom';
+import { useAuth } from "../context/auth";
 
 function Admin(props) {
-    const {setAuthTokens} =useAuth();
-    
-    const logOut=()=>{
+    const { setAuthTokens, authTokens } = useAuth();
+
+    const logOut = () => {
         setAuthTokens();
     }
-    return (
-        <div>
+
+    const adminPanel = authTokens ?
+        <>
             <div>Admin Page</div>
             <Button onClick={logOut}>Log out</Button>
+        </>
+        :
+        <Redirect to="/" />
+
+    console.log('authTokens from admin', authTokens);
+
+    return (
+        <div>
+            {
+                adminPanel
+            }
+            {/* <>
+                <div>Admin Page</div>
+                <Button onClick={logOut}>Log out</Button>
+            </> */}
         </div>
     )
 }

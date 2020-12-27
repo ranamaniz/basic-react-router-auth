@@ -1,67 +1,78 @@
-import React, {useState} from 'react';
-import {Link, Redirect} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import { Form, Input, Button, Logo, Card, Error } from '../components/AuthForm';
 import logoImg from '../img/logo.jpg';
-import {useAuth} from '../context/auth';
+import { useAuth } from '../context/auth';
 import axios from 'axios';
 
 
 const Login = (props) => {
-    console.log('useAuth()', useAuth());
-    const [isLoggedIn, setLoggedIn]= useState(false);
-    const [isError, setIsError]= useState(false);
-    const [email, setEmail]= useState("");
-    const [password,setPassword]=useState("");
-    const {setAuthTokens} = useAuth();
+    const [isLoggedIn, setLoggedIn] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const { setAuthTokens, authTokens } = useAuth();
 
-    const referer =props.location.state.referer || '/';
+    const referer = props.location.state?.referer || '/';
+    console.log('authTokens from admin', authTokens);
+    console.log('authTokens from admin props', props);
 
-    const postLogin=()=>{
+    const postLogin = (event) => {
         
-        axios.post("https://reqres.in/api/login",{
+        event.preventDefault();
+        axios.post("https://reqres.in/api/login", {
             email,
             password,
-        }).then(resp=>{
+        }).then(resp => {
             console.log('resp', resp)
-            if(resp.status==200){
+            if (resp.status == 200) {
                 setAuthTokens(resp.data);
                 setLoggedIn(true);
-            }else{
+            } else {
                 setIsError(true);
             }
-        }).catch(e=>{
+        }).catch(e => {
             setIsError(true)
         });
     }
 
-    if(isLoggedIn){
-        return <Redirect to="/" />
+    if (isLoggedIn) {
+        return <Redirect to={referer} />
     }
 
     return (
         <Card>
             <Logo src={logoImg} />
-            <Form>
-                <Input 
-                    type="email" 
-                    value={email}
-                    onChange={e=>{
-                        setEmail(e.target.value);
-                    }}
-                    placeholder="email" 
-                />
-                <Input 
-                    type="password" 
-                    value={password}
-                    onChange={e=>{
-                        setPassword(e.target.value);
-                    }}
-                    placeholder="password" 
-                />
-                <Button onClick={postLogin}>Sign In</Button>
-            </Form>
+            <form onSubmit={postLogin}>
+                <Form
+                // onSubmit={postLogin}
+                >
+                    <Input
+                        type="email"
+                        value={email}
+                        onChange={e => {
+                            setEmail(e.target.value);
+                        }}
+                        placeholder="email"
+                    />
+                    <Input
+                        type="password"
+                        value={password}
+                        onChange={e => {
+                            setPassword(e.target.value);
+                        }}
+                        placeholder="password"
+                    />
+                    <Button
+                    // onClick={postLogin}
+                    >
+                        Sign In
+                </Button>
+                </Form>
+            </form>
+
             <Link to="/signup">Don't have an account? SignUp Now</Link>
-                {isError && <Error>The email or password provided were incorrect !</Error>}
+            {isError && <Error>The email or password provided were incorrect !</Error>}
         </Card>
     )
 }
