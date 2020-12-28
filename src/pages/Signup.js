@@ -1,7 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Form, Input, Button, Logo, Card, Error } from '../components/AuthForm';
 import logoImg from '../img/logo.jpg';
+import { useAuth } from '../context/auth';
+import axios from 'axios';
 
 
 const Signup = () => {
@@ -20,3 +22,5 @@ const Signup = () => {
 }
 
 export default Signup
+
+

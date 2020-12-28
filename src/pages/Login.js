@@ -14,8 +14,6 @@ const Login = (props) => {
     const { setAuthTokens, authTokens } = useAuth();
 
     const referer = props.location.state?.referer || '/';
-    console.log('authTokens from admin', authTokens);
-    console.log('authTokens from admin props', props);
 
     const postLogin = (event) => {
         
